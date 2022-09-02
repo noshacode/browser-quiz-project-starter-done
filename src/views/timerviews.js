@@ -1,5 +1,5 @@
 import { TIMER_Id } from '../constants.js';
-
+import { quizData } from '../data.js';
 export const createTimerElement = () => {
   const timer = document.createElement('label');
   timer.id = TIMER_Id;
@@ -22,18 +22,22 @@ export const createTimerElement = () => {
 };
 
 export let timerIntervalId = 0;
-let totalSeconds = 0;
 
 export function resetTotalSeconds() {
-    totalSeconds = 0;
+  quizData.totalSeconds = 0;
 }
 
 function increaseTimer() {
-  ++totalSeconds;
+  quizData.totalSeconds++;
+  // I put the here because I want it to save every second if I put it with the other setItems will save the time  since I opened 
+  window.sessionStorage.setItem(
+    'totalSeconds',
+    JSON.stringify(quizData.totalSeconds)
+  );
   let minutes = document.getElementById('minutes');
-  minutes.innerHTML = pad(totalSeconds % 60);
+  minutes.innerHTML = pad(quizData.totalSeconds % 60);
   let seconds = document.getElementById('seconds');
-  seconds.innerHTML = pad(parseInt(totalSeconds / 60));
+  seconds.innerHTML = pad(parseInt(quizData.totalSeconds / 60));
 }
 
 function pad(val) {

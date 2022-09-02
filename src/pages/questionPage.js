@@ -12,8 +12,12 @@ import { SKIP_QUESTION_BUTTON_ID } from '../constants.js';
 import { FINISH_QUIZ_BUTTON_ID } from '../constants.js';
 import { timerIntervalId } from '../views/timerViews.js';
 import { initFinishPage } from './finishPage.js';
+import { time } from '../app.js';
+
+
 
 export const initQuestionPage = () => {
+  time.hidden = false;
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
@@ -91,6 +95,10 @@ export const initQuestionPage = () => {
     }
   });
 
+  
+  
+ 
+
   const skipQuestion = document.getElementById(SKIP_QUESTION_BUTTON_ID);
   skipQuestion.addEventListener('click', () => {
     if (currentQuestion.selected === null) {
@@ -131,6 +139,10 @@ export const initQuestionPage = () => {
     'rightAnswers',
     JSON.stringify(quizData.rightAnswers)
   );
+
+  
+
+
 
   finish.addEventListener('click', () => {
     clearInterval(timerIntervalId);
