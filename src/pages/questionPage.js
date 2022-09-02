@@ -20,12 +20,20 @@ export const initQuestionPage = () => {
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
 
   const amount = quizData.questions.length;
-  const questionNumber = `Question [ ${quizData.currentQuestionIndex + 1} / ${amount} ]`;
+  const questionNumber = `Question [ ${
+    quizData.currentQuestionIndex + 1
+  } / ${amount} ]`;
   const score = `Score &nbsp&nbsp [ ${quizData.rightAnswers} / ${amount} ]`;
   const wrongAnswer = `&nbspWrong &nbsp [ ${quizData.wrongAnswers} / ${amount} ]`;
   const skipped = `Skipped [ ${quizData.skippedQuestions} / ${amount} ]`;
 
-  const questionElement = createQuestionElement(currentQuestion.text, questionNumber, score, wrongAnswer, skipped);
+  const questionElement = createQuestionElement(
+    currentQuestion.text,
+    questionNumber,
+    score,
+    wrongAnswer,
+    skipped
+  );
   userInterface.appendChild(questionElement);
 
   const answersListElement = document.getElementById(ANSWERS_LIST_ID);
@@ -59,7 +67,9 @@ export const initQuestionPage = () => {
       if (currentQuestion.selected === null) {
         currentQuestion.selected = wrong[i];
         wrong[i].style.background = 'red';
-        setTimeout(() => { right.style.background = 'green'; }, 500);
+        setTimeout(() => {
+          right.style.background = 'green';
+        }, 500);
         quizData.wrongAnswers++;
         quizData.result.wrong++;
       }
@@ -73,7 +83,9 @@ export const initQuestionPage = () => {
       right.style.background = 'green';
       quizData.wrongAnswers++;
       quizData.result.wrong++;
-      setTimeout(() => { nextQuestion() }, 1000);
+      setTimeout(() => {
+        nextQuestion();
+      }, 1000);
     } else {
       nextQuestion();
     }
@@ -83,8 +95,12 @@ export const initQuestionPage = () => {
   skipQuestion.addEventListener('click', () => {
     if (currentQuestion.selected === null) {
       currentQuestion.selected = right;
-      setTimeout(() => { right.style.background = 'green'; }, 100);
-      setTimeout(() => { nextQuestion(); }, 1000);
+      setTimeout(() => {
+        right.style.background = 'green';
+      }, 100);
+      setTimeout(() => {
+        nextQuestion();
+      }, 1000);
       quizData.skippedQuestions++;
       quizData.result.skipped++;
     }
@@ -97,13 +113,32 @@ export const initQuestionPage = () => {
     toNextQuestion.hidden = true;
     finish.style.left = '26.7%';
   }
+
+  window.sessionStorage.setItem(
+    'currentQuestionIndex',
+    JSON.stringify(quizData.currentQuestionIndex)
+  );
+  window.sessionStorage.setItem(
+    'skippedQuestions',
+    JSON.stringify(quizData.skippedQuestions)
+  );
+  window.sessionStorage.setItem(
+    'wrongAnswers',
+    JSON.stringify(quizData.wrongAnswers)
+  );
+
+  window.sessionStorage.setItem(
+    'rightAnswers',
+    JSON.stringify(quizData.rightAnswers)
+  );
+
   finish.addEventListener('click', () => {
     clearInterval(timerIntervalId);
     setTimeout(() => {
       initFinishPage();
     }, 1500);
   });
-}
+};
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex++;
