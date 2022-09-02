@@ -104,6 +104,7 @@ export const initQuestionPage = () => {
     }, 1500);
   });
 }
+window.sessionStorage.setItem("currentQuestionIndex",JSON.stringify(quizData.currentQuestionIndex))
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex++;
