@@ -209,5 +209,5 @@ export const quizData = {
         },
       ],
     },
-  ]
+  ],
 };

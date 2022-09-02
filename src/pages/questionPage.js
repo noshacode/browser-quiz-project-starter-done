@@ -113,16 +113,44 @@ export const initQuestionPage = () => {
     toNextQuestion.hidden = true;
     finish.style.left = '26.7%';
   }
+
+
+  window.sessionStorage.setItem(
+    'currentQuestionIndex',
+    JSON.stringify(quizData.currentQuestionIndex)
+  );
+  window.sessionStorage.setItem(
+    'skippedQuestions',
+    JSON.stringify(quizData.skippedQuestions)
+  );
+  window.sessionStorage.setItem(
+    'wrongAnswers',
+    JSON.stringify(quizData.wrongAnswers)
+  );
+
+  window.sessionStorage.setItem(
+    'resultWrong',
+    JSON.stringify(quizData.result.wrong)
+  );
+
+  window.sessionStorage.setItem(
+    'rightAnswers',
+    JSON.stringify(quizData.rightAnswers)
+  );
+  window.sessionStorage.setItem(
+    'resultRight',
+    JSON.stringify(quizData.result.right)
+  );
+
+  
+
   finish.addEventListener('click', () => {
     clearInterval(timerIntervalId);
     setTimeout(() => {
       initFinishPage();
     }, 1500);
   });
-  window.sessionStorage.setItem(
-    'currentQuestionIndex',
-    JSON.stringify(quizData.currentQuestionIndex)
-  );
+
 };
 
 const nextQuestion = () => {
