@@ -91,7 +91,7 @@ export const initQuestionPage = () => {
   });
 
   const finish = document.getElementById(FINISH_QUIZ_BUTTON_ID);
-  if (quizData.currentQuestionIndex < 9) {
+  if (quizData.currentQuestionIndex < quizData.questions.length - 1) {
     finish.hidden = true;
   } else {
     toNextQuestion.hidden = true;
