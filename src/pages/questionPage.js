@@ -114,7 +114,6 @@ export const initQuestionPage = () => {
     finish.style.left = '26.7%';
   }
 
-
   window.sessionStorage.setItem(
     'currentQuestionIndex',
     JSON.stringify(quizData.currentQuestionIndex)
@@ -129,20 +128,9 @@ export const initQuestionPage = () => {
   );
 
   window.sessionStorage.setItem(
-    'resultWrong',
-    JSON.stringify(quizData.result.wrong)
-  );
-
-  window.sessionStorage.setItem(
     'rightAnswers',
     JSON.stringify(quizData.rightAnswers)
   );
-  window.sessionStorage.setItem(
-    'resultRight',
-    JSON.stringify(quizData.result.right)
-  );
-
-  
 
   finish.addEventListener('click', () => {
     clearInterval(timerIntervalId);
@@ -150,7 +138,6 @@ export const initQuestionPage = () => {
       initFinishPage();
     }, 1500);
   });
-
 };
 
 const nextQuestion = () => {

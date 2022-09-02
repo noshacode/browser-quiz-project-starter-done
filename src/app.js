@@ -17,32 +17,29 @@ time.hidden = true;
 body.appendChild(time);
 
 const loadApp = () => {
-  let session = window.sessionStorage.getItem('currentQuestionIndex');
+  let currentQuestionIndex = window.sessionStorage.getItem(
+    'currentQuestionIndex'
+  );
+  quizData.currentQuestionIndex = JSON.parse(currentQuestionIndex) || 0;
 
-  quizData.currentQuestionIndex = JSON.parse(session) || 0;
+  let skippedQuestions = window.sessionStorage.getItem('skippedQuestions');
+  quizData.skippedQuestions = JSON.parse(skippedQuestions) || 0;
 
-  if (session) {
+  let wrongAnswers = window.sessionStorage.getItem('wrongAnswers');
+  quizData.wrongAnswers = JSON.parse(wrongAnswers) || 0;
+
+  let rightAnswers = window.sessionStorage.getItem('rightAnswers');
+  quizData.rightAnswers = JSON.parse(rightAnswers) || 0;
+
+  if (currentQuestionIndex) {
     initQuestionPage();
     setTime(true);
 
-    console.log('session true', session);
+    console.log('session true', currentQuestionIndex);
   } else {
     initWelcomePage();
-    console.log('session false', session);
+    console.log('session false', currentQuestionIndex);
   }
-  // window.sessionStorage.getItem('skippedQuestions');
-  // quizData.skippedQuestions = JSON.parse(
-  //   window.sessionStorage.getItem('skippedQuestions')
-  // );
-
-  // console.log(quizData.skippedQuestions);
-  // window.sessionStorage.getItem('wrongAnswers');
-
-  // window.sessionStorage.getItem('resultWrong');
-
-  // window.sessionStorage.getItem('rightAnswers');
-
-  // window.sessionStorage.getItem('resultRight');
 };
 
 window.addEventListener('load', loadApp);
