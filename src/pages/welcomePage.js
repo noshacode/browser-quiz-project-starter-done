@@ -3,7 +3,7 @@
 import { USER_INTERFACE_ID, START_QUIZ_BUTTON_ID } from '../constants.js';
 import { createWelcomeElement } from '../views/welcomeView.js';
 import { initQuestionPage } from './questionPage.js';
-import { setTime } from '../views/timerViews.js';
+import { setTime, resetTotalSeconds } from '../views/timerViews.js';
 import { quizData } from '../data.js';
 import { time } from '../app.js'
 
@@ -20,10 +20,10 @@ export const initWelcomePage = () => {
     .addEventListener('click', startQuiz);
 };
 
-let totalSeconds = 0;
+// let totalSeconds = 0;
 
 export const startQuiz = () => {
-  totalSeconds = 0;
+  resetTotalSeconds()
   quizData.currentQuestionIndex = 0;
   for (let i = 0; i < quizData.questions.length; i++) {
     quizData.questions[i].selected = null;

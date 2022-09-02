@@ -21,8 +21,12 @@ export const createTimerElement = () => {
     return timer;
 }
 
-let totalSeconds = 0;
 export let timerIntervalId = 0;
+let totalSeconds = 0;
+
+export function resetTotalSeconds() {
+    totalSeconds = 0;
+}
 
 function increaseTimer() {
     ++totalSeconds;
