@@ -18,10 +18,7 @@ export const initWelcomePage = () => {
     .addEventListener('click', startQuiz);
 };
 
-// let totalSeconds = 0;
-
 export const startQuiz = () => {
-  resetTotalSeconds()
   quizData.currentQuestionIndex = 0;
   for (let i = 0; i < quizData.questions.length; i++) {
     quizData.questions[i].selected = null;
@@ -29,9 +26,8 @@ export const startQuiz = () => {
   quizData.rightAnswers = 0;
   quizData.wrongAnswers = 0;
   quizData.skippedQuestions = 0;
-  quizData.result.right = 0;
-  quizData.result.wrong = 0;
-  quizData.result.skipped = 0;
   initQuestionPage();
+  time.hidden = false;
+  resetTotalSeconds()
   setTime(true);
 };

@@ -15,12 +15,7 @@ export const quizData = {
   rightAnswers: 0,
   wrongAnswers: 0,
   skippedQuestions: 0,
-  totalSeconds : 0,
-  result: {
-    right: 0,
-    wrong: 0,
-    skipped: 0,
-  },
+  totalSeconds: 0,
   questions: [
     {
       text: 'Which of the following tag is used for inserting the largest heading in HTML?',
@@ -210,5 +205,5 @@ export const quizData = {
         },
       ],
     },
-  ],
+  ]
 };

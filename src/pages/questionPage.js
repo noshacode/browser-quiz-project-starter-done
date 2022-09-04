@@ -12,32 +12,21 @@ import { SKIP_QUESTION_BUTTON_ID } from '../constants.js';
 import { FINISH_QUIZ_BUTTON_ID } from '../constants.js';
 import { timerIntervalId } from '../views/timerViews.js';
 import { initFinishPage } from './finishPage.js';
-import { time } from '../app.js';
-
 
 
 export const initQuestionPage = () => {
-  time.hidden = false;
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
   const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
 
   const amount = quizData.questions.length;
-  const questionNumber = `Question [ ${
-    quizData.currentQuestionIndex + 1
-  } / ${amount} ]`;
+  const questionNumber = `Question [ ${quizData.currentQuestionIndex + 1} / ${amount} ]`;
   const score = `Score &nbsp&nbsp [ ${quizData.rightAnswers} / ${amount} ]`;
   const wrongAnswer = `&nbspWrong &nbsp [ ${quizData.wrongAnswers} / ${amount} ]`;
   const skipped = `Skipped [ ${quizData.skippedQuestions} / ${amount} ]`;
 
-  const questionElement = createQuestionElement(
-    currentQuestion.text,
-    questionNumber,
-    score,
-    wrongAnswer,
-    skipped
-  );
+  const questionElement = createQuestionElement(currentQuestion.text, questionNumber, score, wrongAnswer, skipped);
   userInterface.appendChild(questionElement);
 
   const answersListElement = document.getElementById(ANSWERS_LIST_ID);
@@ -61,7 +50,10 @@ export const initQuestionPage = () => {
       currentQuestion.selected = right;
       right.style.background = 'green';
       quizData.rightAnswers++;
-      quizData.result.right++;
+      if (quizData.currentQuestionIndex === (quizData.questions.length - 1)) {
+        skipQuestion.hidden = true;
+        finish.style.left = '44.8%';
+      }
     }
   });
 
@@ -71,56 +63,85 @@ export const initQuestionPage = () => {
       if (currentQuestion.selected === null) {
         currentQuestion.selected = wrong[i];
         wrong[i].style.background = 'red';
-        setTimeout(() => {
-          right.style.background = 'green';
-        }, 500);
+        setTimeout(() => { right.style.background = 'green'; }, 500);
         quizData.wrongAnswers++;
-        quizData.result.wrong++;
+        if (quizData.currentQuestionIndex === (quizData.questions.length - 1)) {
+          skipQuestion.hidden = true;
+          finish.style.left = '44.8%';
+        }
       }
     });
   }
 
   const toNextQuestion = document.getElementById(NEXT_QUESTION_BUTTON_ID);
   toNextQuestion.addEventListener('click', () => {
-    if (currentQuestion.selected === null) {
-      currentQuestion.selected = wrong[0];
-      right.style.background = 'green';
-      quizData.wrongAnswers++;
-      quizData.result.wrong++;
-      setTimeout(() => {
+    if (currentQuestion.selected === right) {
+      currentQuestion.selected = nextQuestion();
+    } else if (currentQuestion.selected === wrong[0] || currentQuestion.selected === wrong[1] || currentQuestion.selected === wrong[2]) {
+      currentQuestion.selected = nextQuestion();
+    } else if (currentQuestion.selected === null) {
+      currentQuestion.selected = setTimeout(() => {
         nextQuestion();
       }, 1000);
-    } else {
-      nextQuestion();
+      right.style.background = 'green';
+      quizData.skippedQuestions++;
     }
   });
 
-  
-  
- 
-
   const skipQuestion = document.getElementById(SKIP_QUESTION_BUTTON_ID);
   skipQuestion.addEventListener('click', () => {
-    if (currentQuestion.selected === null) {
-      currentQuestion.selected = right;
-      setTimeout(() => {
+    if (quizData.currentQuestionIndex < (quizData.questions.length - 1)) {
+      if (currentQuestion.selected === right) {
+        currentQuestion.selected = right;
+      } else if (currentQuestion.selected === wrong[0] || currentQuestion.selected === wrong[1] || currentQuestion.selected === wrong[2]) {
+        currentQuestion.selected = wrong[0];
+      } else if (currentQuestion.selected === null) {
+        currentQuestion.selected = setTimeout(() => {
+          nextQuestion();
+        }, 1000);
         right.style.background = 'green';
-      }, 100);
-      setTimeout(() => {
-        nextQuestion();
-      }, 1000);
-      quizData.skippedQuestions++;
-      quizData.result.skipped++;
+        quizData.skippedQuestions++;
+      }
+    } else {
+      if (currentQuestion.selected === right) {
+        currentQuestion.selected = right;
+      } else if (currentQuestion.selected === wrong[0] || currentQuestion.selected === wrong[1] || currentQuestion.selected === wrong[2]) {
+        currentQuestion.selected = wrong[0];
+      } else if (currentQuestion.selected === null) {
+        currentQuestion.selected = setTimeout(() => {
+          initFinishPage();
+        }, 1000);
+        clearInterval(timerIntervalId);
+        right.style.background = 'green';
+        quizData.skippedQuestions++;
+      }
     }
   });
 
   const finish = document.getElementById(FINISH_QUIZ_BUTTON_ID);
-  if (quizData.currentQuestionIndex < quizData.questions.length - 1) {
+  if (quizData.currentQuestionIndex < (quizData.questions.length - 1)) {
     finish.hidden = true;
   } else {
     toNextQuestion.hidden = true;
     finish.style.left = '26.7%';
   }
+
+  finish.addEventListener('click', () => {
+    if (currentQuestion.selected === right) {
+      currentQuestion.selected = initFinishPage();
+      clearInterval(timerIntervalId);
+    } else if (currentQuestion.selected === wrong[0] || currentQuestion.selected === wrong[1] || currentQuestion.selected === wrong[2]) {
+      currentQuestion.selected = initFinishPage();
+      clearInterval(timerIntervalId);
+    } else if (currentQuestion.selected === null) {
+      currentQuestion.selected = setTimeout(() => {
+        initFinishPage();
+      }, 1000);
+      clearInterval(timerIntervalId);
+      right.style.background = 'green';
+      quizData.skippedQuestions++;
+    }
+  });
 
   window.sessionStorage.setItem(
     'currentQuestionIndex',
@@ -134,23 +155,12 @@ export const initQuestionPage = () => {
     'wrongAnswers',
     JSON.stringify(quizData.wrongAnswers)
   );
-
   window.sessionStorage.setItem(
     'rightAnswers',
     JSON.stringify(quizData.rightAnswers)
   );
+}
 
-  
-
-
-
-  finish.addEventListener('click', () => {
-    clearInterval(timerIntervalId);
-    setTimeout(() => {
-      initFinishPage();
-    }, 1500);
-  });
-};
 
 const nextQuestion = () => {
   quizData.currentQuestionIndex++;
