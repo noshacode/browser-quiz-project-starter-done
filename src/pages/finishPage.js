@@ -8,8 +8,8 @@ export const initFinishPage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
-  const welcomeElement = createFinishElement();
-  userInterface.appendChild(welcomeElement);
+  const finishElement = createFinishElement();
+  userInterface.appendChild(finishElement);
 
   const resultMessage = document.getElementById('result-message');
   if (quizData.rightAnswers > 6) {

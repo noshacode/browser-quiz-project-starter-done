@@ -12,6 +12,7 @@ import { SKIP_QUESTION_BUTTON_ID } from '../constants.js';
 import { FINISH_QUIZ_BUTTON_ID } from '../constants.js';
 import { timerIntervalId } from '../views/timerViews.js';
 import { initFinishPage } from './finishPage.js';
+import { createHintElement } from '../views/hintElement.js';
 
 
 export const initQuestionPage = () => {
@@ -54,6 +55,7 @@ export const initQuestionPage = () => {
       quizData.rightAnswers++;
       if (quizData.currentQuestionIndex === (quizData.questions.length - 1)) {
         skipQuestion.hidden = true;
+        hint.hidden = true;
         finish.style.left = '44.8%';
       }
     }
@@ -69,6 +71,7 @@ export const initQuestionPage = () => {
         quizData.wrongAnswers++;
         if (quizData.currentQuestionIndex === (quizData.questions.length - 1)) {
           skipQuestion.hidden = true;
+          hint.hidden = true;
           finish.style.left = '44.8%';
         }
       }
@@ -88,6 +91,15 @@ export const initQuestionPage = () => {
       right.style.background = 'green';
       quizData.skippedQuestions++;
     }
+  });
+
+  const hint = document.getElementById(HINT_QUIZ_BUTTON_ID);
+  hint.addEventListener('click', () => {
+    const hintDiv = createHintElement(currentQuestion.explanation, currentQuestion.links[0].text, currentQuestion.links[0].href);
+    userInterface.appendChild(hintDiv);
+    document.getElementById('close-element').addEventListener('click', () => {
+      hintDiv.hidden = true;
+    });
   });
 
   const skipQuestion = document.getElementById(SKIP_QUESTION_BUTTON_ID);
@@ -161,6 +173,7 @@ export const initQuestionPage = () => {
     'wrongAnswers',
     JSON.stringify(quizData.wrongAnswers)
   );
+
   window.sessionStorage.setItem(
     'rightAnswers',
     JSON.stringify(quizData.rightAnswers)
