@@ -14,11 +14,11 @@ export const createHintElement = (explain, text, href) => {
       <br>
       See the link below:
       <br>
-      ${text}: ${href}
+      <a target="_blank" href="${href}">${text}</a>
     `;
   element.style.position = "absolute";
-  element.style.top = "25px";
-  element.style.left = "26%";
+  element.style.top = "20px";
+  element.style.left = "25.5%";
   element.style.width = "450px";
   element.style.height = "575px";
   element.style.color = "white";
