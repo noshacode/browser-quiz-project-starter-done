@@ -18,7 +18,9 @@ export const initQuestionPage = () => {
   const userInterface = document.getElementById(USER_INTERFACE_ID);
   userInterface.innerHTML = '';
 
-  const currentQuestion = quizData.questions[quizData.currentQuestionIndex];
+  const questionsArray = JSON.parse(window.sessionStorage.getItem('questionsArray'));
+
+  const currentQuestion = questionsArray[quizData.currentQuestionIndex];
 
   const amount = quizData.questions.length;
   const questionNumber = `Question [ ${quizData.currentQuestionIndex + 1} / ${amount} ]`;
@@ -120,7 +122,7 @@ export const initQuestionPage = () => {
 
   const finish = document.getElementById(FINISH_QUIZ_BUTTON_ID);
   if (quizData.currentQuestionIndex < (quizData.questions.length - 1)) {
-    finish.hidden = true;
+    finish.style.left = '87%';
   } else {
     toNextQuestion.hidden = true;
     finish.style.left = '26.7%';
@@ -147,6 +149,10 @@ export const initQuestionPage = () => {
     'currentQuestionIndex',
     JSON.stringify(quizData.currentQuestionIndex)
   );
+  // window.sessionStorage.setItem(
+  //   'selected',
+  //   JSON.stringify(quizData.questions[0].selected)
+  // );
   window.sessionStorage.setItem(
     'skippedQuestions',
     JSON.stringify(quizData.skippedQuestions)

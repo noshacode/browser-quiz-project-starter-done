@@ -28,6 +28,9 @@ export const loadApp = () => {
   let rightAnswers = window.sessionStorage.getItem('rightAnswers');
   quizData.rightAnswers = JSON.parse(rightAnswers) || 0;
 
+  // let selected = window.sessionStorage.getItem('selected');
+  // quizData.questions[0].selected = JSON.parse(selected) || 0;
+
   let totalSeconds = window.sessionStorage.getItem('totalSeconds');
   quizData.totalSeconds = JSON.parse(totalSeconds) || 0;
 
