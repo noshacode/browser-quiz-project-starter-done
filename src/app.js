@@ -1,9 +1,9 @@
 'use strict';
 import { quizData } from './data.js';
 import { initWelcomePage } from './pages/welcomePage.js';
-import { createTimerElement } from './views/timerViews.js';
+import { createTimerElement } from './views/timerviews.js';
 import { initQuestionPage } from './pages/questionPage.js';
-import { setTime } from './views/timerViews.js';
+import { setTime } from './views/timerviews.js';
 import { shuffle } from './pages/utilities.js';
 
 const body = document.body;
@@ -39,7 +39,10 @@ export const loadApp = () => {
     setTime(true);
   } else {
     const questionsArrayShuffled = shuffle(quizData.questions);
-    window.sessionStorage.setItem('questionsArray', JSON.stringify(questionsArrayShuffled));
+    window.sessionStorage.setItem(
+      'questionsArray',
+      JSON.stringify(questionsArrayShuffled)
+    );
     initWelcomePage();
     time.hidden = true;
   }
