@@ -12,7 +12,7 @@ time.style.top = '6%';
 time.style.left = '49.3%';
 body.appendChild(time);
 
-const loadApp = () => {
+export const loadApp = () => {
   let currentQuestionIndex = window.sessionStorage.getItem(
     'currentQuestionIndex'
   );
