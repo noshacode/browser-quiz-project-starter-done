@@ -1,6 +1,7 @@
 export const createHintElement = (explain, text, href) => {
   const element = document.createElement('p');
 
+
   const closeElement = document.createElement('span');
   closeElement.textContent = 'X ';
   closeElement.id = 'close-element';

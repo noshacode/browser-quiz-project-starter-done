@@ -15,6 +15,5 @@ export const createWelcomeElement = () => {
     <h1>Welcome to MannaSwipe Quiz</h1>
     <button id="${START_QUIZ_BUTTON_ID}">start quiz</button>
   `;
-
   return element;
 };

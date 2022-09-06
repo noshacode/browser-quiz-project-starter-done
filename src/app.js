@@ -1,4 +1,4 @@
-'use strict';
+'use strict'; //to satrt
 import { quizData } from './data.js';
 import { initWelcomePage } from './pages/welcomePage.js';
 import { createTimerElement } from './views/timerviews.js';
@@ -12,7 +12,7 @@ time.style.position = 'absolute';
 time.style.top = '6%';
 time.style.left = '49.3%';
 body.appendChild(time);
-
+// main function
 export const loadApp = () => {
   let currentQuestionIndex = window.sessionStorage.getItem(
     'currentQuestionIndex'
@@ -38,6 +38,8 @@ export const loadApp = () => {
     initQuestionPage();
     setTime(true);
   } else {
+
+
     const questionsArrayShuffled = shuffle(quizData.questions);
     window.sessionStorage.setItem(
       'questionsArray',

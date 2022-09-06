@@ -10,20 +10,27 @@ import { HINT_QUIZ_BUTTON_ID } from '../constants.js';
  * Create a full question element
  * @returns {Element}
  */
-export const createQuestionElement = (question, current, good, bad, skip) => {
+export const createQuestionElement = (questionText, quizData) => {
   const element = document.createElement('div');
   element.style.width = '60rem';
   element.style.height = '40rem';
   element.style.position = 'relative';
+  const amount = quizData.questions.length;
+  const currentQuestionNumber = `Question [ ${
+    quizData.currentQuestionIndex + 1
+  } / ${amount} ]`;
+  const score = `Score &nbsp&nbsp [ ${quizData.rightAnswers} / ${amount} ]`;
+  const wrongAnswer = `&nbspWrong &nbsp [ ${quizData.wrongAnswers} / ${amount} ]`;
+  const skipped = `Skipped [ ${quizData.skippedQuestions} / ${amount} ]`;
 
   // I use String.raw just to get fancy colors for the HTML in VS Code.
   element.innerHTML += String.raw`
       <br>
-      <p>${current}&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ${good}</p>
+      <p>${currentQuestionNumber}&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ${score}</p>
       <hr>
-      <p>${bad}&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ${skip}</p>
+      <p>${wrongAnswer}&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ${skipped}</p>
       <hr>
-      <h1>${question}</h1>
+      <h1>${questionText}</h1>
       <ul id="${ANSWERS_LIST_ID}"></ul>
       <hr>
       <button id="${NEXT_QUESTION_BUTTON_ID}">Next question</button>
